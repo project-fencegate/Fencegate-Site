@@ -1,6 +1,6 @@
 import functools
 
-from flask_babel import _
+from .dummy import _
 from flask import (Blueprint, flash, g, redirect, render_template, request, session, url_for)
 from .db import get_db
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -18,13 +18,13 @@ def register():
         error = None
 
         if not username:
-            error = _('Please input a Username')
+            error = 'Please input a Username'
         elif not password:
-            error = _('Please specify a password')
-        elif pass2 == password:
-            error = _('The passwords do not match')
-        elif db.execute('SELECT * FROM user WHERE username=?'(username, )).fetchone() is not None:
-            error = _("The username {} already exists".format(username))
+            error = 'Please specify a password'
+        elif pass2 != password:
+            error = 'The passwords do not match'
+        elif db.execute('SELECT * FROM user WHERE username=?', (username, )).fetchone() is not None:
+            error = "The username {} already exists".format(username)
 
         if error is None:
             db.execute(
@@ -34,7 +34,7 @@ def register():
             db.commit()
             return redirect(url_for('auth.login'))
 
-        flash(error)
+        flash(_(error))
 
     return render_template('auth/register.html')
 
@@ -49,19 +49,19 @@ def login():
 
         user = db.execute(
             "SELECT * FROM user WHERE username = ?", (username,)
-        )
+        ).fetchone()
 
-        if user is None or not check_password_hash(user['password'], password):
-            error = _('The username password combination is not recognized')
+        if (user is None) or (not check_password_hash(user['password'], password)):
+            error = 'The username password combination is not recognized'
 
         if error is None:
             session.clear()
             session['user_id'] = user['id']
             return redirect(url_for('index'))
 
-        flash(error)
+        flash(_(error))
 
-    return render_template('auth/register.html')
+    return render_template('auth/login.html')
 
 
 @bp.before_app_request

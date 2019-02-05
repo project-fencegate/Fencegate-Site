@@ -10,6 +10,6 @@ setup(
         'flask',
         'flask-babel2',
         'markdown',
-        'flask-sqlalchemy',
+        'flask-sqlalchemy', 'click'
     ],
 )
