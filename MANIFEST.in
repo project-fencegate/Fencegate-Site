@@ -1,0 +1,4 @@
+include fencegate/init_database.sql
+graft fencegate/static
+graft fencegate/templates
+global-exclude *.pyc
