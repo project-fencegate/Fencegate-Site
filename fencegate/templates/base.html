@@ -2,41 +2,32 @@
 <html>
 <head>
     <title>{% block title %}{% endblock %} - Fencegate</title>
+    <link rel="icon" href="/static/favicon.ico"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/static/scss/custom.css"/>
 </head>
 <body>
-<nav>
-    <h1>Flaskr</h1>
-    <ul>
-        {% if g.user %}
-            <li><span>{{ g.user['username'] }}</span>
-            <li><a href="{{ url_for('auth.logout') }}">Log Out</a>
-                {% else %}
-            <li><a href="{{ url_for('auth.register') }}">Register</a>
-            <li><a href="{{ url_for('auth.login') }}">Log In</a>
-        {% endif %}
+<nav class="sidebar text-white justify-content-center">
+    <ul class="navbar navbar-light flex-column">
+        <a href="#" class="nav-item active nav-link">Item1</a>
+        <a href="#" class="nav-item nav-link">Item2</a>
     </ul>
 </nav>
-
-<section class="content">
-    <header>
-        {% block header %}{% endblock %}
-    </header>
-    {% for message in get_flashed_messages() %}
-        <div class="flash">{{ message }}</div>
-    {% endfor %}
-    {% block content %}{% endblock %}
-</section>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
-        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
-        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
-        crossorigin="anonymous"></script>
+<div class="wrapper container">
+    <div class="row">
+        <div class="col">
+            <section>
+                <header>
+                    {% block header %}{% endblock %}
+                </header>
+                {% for message in get_flashed_messages() %}
+                    <div class="alert alert-danger">{{ message }}</div>
+                {% endfor %}
+                {% block content %}{% endblock %}
+            </section>
+        </div>
+    </div>
+</div>
 </body>
 </html>
